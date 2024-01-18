@@ -1,4 +1,4 @@
-class Kosdaq_name(object):
+class Ticker_name(object):
     
     KOSPI_NAME_TICKER = {
                             'AJ네트웍스': '095570',
