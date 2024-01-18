@@ -4,8 +4,7 @@ from selenium.webdriver.chrome.options import Options
 import discord
 import asyncio
 import nest_asyncio
-from database_util import *
-import winsound
+from util.database_util import *import winsound
 from playsound import playsound
 
 from selenium import webdriver
@@ -16,7 +15,7 @@ import time
 
 
 
-db_name = 'dnews.db'
+db_name = 'news_db/dnews.db'
 create_db(db_name)
 
 
@@ -61,7 +60,7 @@ try :
         # id_to_delete = get_id_to_delete(db_name)  # Function to determine which ID to delete
         # if id_to_delete is not None:
         #     delete_id(db_name, id_to_delete)
-        time.sleep(1)
+        # time.sleep(1)
         driver.refresh()
 
 except KeyboardInterrupt : 
