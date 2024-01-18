@@ -7,16 +7,6 @@ import multiprocessing
 
 meta_data = NewsAddress().METADATA
 
-### 대한경제
-db_name1 = meta_data['대한경제']['db_name']
-address1 = meta_data['대한경제']['주소']
-split_word1 = meta_data['대한경제']['split']
-
-### 머니S
-db_name2 = meta_data['머니S']['db_name']
-address2 = meta_data['머니S']['주소']
-split_word2 = meta_data['머니S']['split']
-
 
 def run_bot(db_name, address, split_word):
     bot = NewsBot(db_name, address, split_word)
@@ -25,14 +15,19 @@ def run_bot(db_name, address, split_word):
 
 if __name__ == '__main__':
     # Create process objects
-    process1 = multiprocessing.Process(target=run_bot, args=(db_name1, address1, split_word1))
-    process2 = multiprocessing.Process(target=run_bot, args=(db_name2, address2, split_word2))
+    
+    processes = []
+    
+    for key, value in meta_data.items():
+        db_name = value['db_name']
+        address = value['주소']
+        split_word = value['split']
 
-    # Start processes
-    process1.start()
-    process2.start()
+        # Create a process for each bot
+        process = multiprocessing.Process(target=run_bot, args=(db_name, address, split_word))
+        processes.append(process)
+        process.start()
 
-    # Optionally, wait for both processes to complete
-    process1.join()
-    process2.join()
-        
+    # Wait for all processes to complete
+    for process in processes:
+        process.join()

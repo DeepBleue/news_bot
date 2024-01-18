@@ -1,14 +1,18 @@
 import re
 import time
+import json
+import socket
+from sound.ring import ring
+from datetime import datetime
 from selenium import webdriver
 from util.database_util import *
-from selenium.webdriver.common.by import By
-from config.ticker_name import Ticker_name
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException  
 from config.news_info import NewsAddress
-from sound.ring import ring
+from config.ticker_name import Ticker_name
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException  
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class NewsBot():
 
@@ -22,15 +26,20 @@ class NewsBot():
         self.start()
         
         
-        
-        
     
+    def send_data(self,data):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(('localhost', 12345))
+            s.sendall(json.dumps(data).encode('utf-8'))
+        
+
     
     def start(self):
         
         create_db(self.db_name)
         driver = webdriver.Chrome()
         driver.get(self.address)
+        cnt = 0
 
         try : 
             while True : 
@@ -64,9 +73,18 @@ class NewsBot():
                         print(f'there is no ticker {word}')
 
                     elif (ticker != None) and (not number_exists(number_part,self.db_name)):
+                        current_time = datetime.now()
+                        formatted_time = current_time.strftime(f"%H:%M:%S:%f")
                         insert_number(number_part,self.db_name)
-                        print(word)
-                        print(ticker)
+                        
+                        filename = 'news_time.txt'
+                        with open(filename, 'w') as file:
+                            file.write(f"{title} - time : {formatted_time}")
+                        
+                        # print(title)
+                        # print(word)
+                        # print(ticker)
+                        # self.send_data(ticker)
                         ring()
 
                 
@@ -74,10 +92,18 @@ class NewsBot():
                 # if id_to_delete is not None:
                 #     delete_id(self.db_name, id_to_delete)
                 
-                print(title)
+                # print(title)
                 time.sleep(1)
-                driver.refresh()
                 
+                if cnt % 3 == 0 : 
+                    driver.refresh()
+                elif cnt % 3 == 1 : 
+                    driver.get(self.address)
+                elif cnt % 3 == 2 : 
+                    driver.execute_script("location.reload()")
+                    cnt = 0 
+                    
+                cnt += 1
 
         except KeyboardInterrupt : 
             driver.quit()

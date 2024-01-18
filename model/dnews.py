@@ -27,7 +27,7 @@ address = f"https://search.naver.com/search.naver?where=news&sm=tab_pge&query=%E
 
 driver.get(address)
 
-
+cnt = 0
 
 try : 
     while True : 
@@ -62,8 +62,6 @@ try :
 
             elif (ticker != None) and (not number_exists(number_part,db_name)):
                 insert_number(number_part,db_name)
-                print(word)
-                print(ticker)
                 ring()
 
         
@@ -73,7 +71,16 @@ try :
         
         print(title)
         time.sleep(1)
-        driver.refresh()
+
+        if cnt % 3 == 0 : 
+            driver.refresh()
+        elif cnt % 3 == 1 : 
+            driver.get(address)
+        elif cnt % 3 == 2 : 
+            driver.execute_script("location.reload()")
+            cnt = 0 
+            
+        cnt += 1
         
         
         

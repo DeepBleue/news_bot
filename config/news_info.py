@@ -12,6 +12,12 @@ class NewsAddress(object):
             '주소' : f"https://search.naver.com/search.naver?where=news&query=%EC%9D%B4%EC%A7%80%EC%9A%B4&sm=tab_opt&sort=1&photo=0&field=2&pd=0&ds=&de=&docid=&related=0&mynews=1&office_type=1&office_section_code=4&news_office_checked=1417&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&is_sug_officeid=0&office_category=0&service_area=0",
             'split' : 'https://www.moneys.co.kr/article/',
             'db_name' : 'news_db/moneyS.db'
+        },
+        '파이낸셜뉴스': {
+            '기자' : '최두선',
+            '주소' : f"https://search.naver.com/search.naver?where=news&query=%EC%B5%9C%EB%91%90%EC%84%A0&sm=tab_opt&sort=1&photo=0&field=2&pd=0&ds=&de=&docid=&related=0&mynews=1&office_type=1&office_section_code=3&news_office_checked=1014&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&is_sug_officeid=0&office_category=0&service_area=0",
+            'split' : 'https://www.fnnews.com/news/',
+            'db_name' : 'news_db/fnnews.db'
         }
             
     }
