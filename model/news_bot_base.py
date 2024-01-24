@@ -78,8 +78,9 @@ class NewsBot():
                         insert_number(number_part,self.db_name)
                         
                         filename = 'news_time.txt'
-                        with open(filename, 'w') as file:
+                        with open(filename, 'w', encoding = 'utf-8') as file:
                             file.write(f"{title} - time : {formatted_time}")
+                        print(formatted_time)
                         
                         # print(title)
                         # print(word)
